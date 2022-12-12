@@ -1,4 +1,4 @@
-# ComITProject
+# ComITProject - HealthCom
 
 This is a individual project for the ComIT 2022 Class by Anh Tu Nguyen.
 
