@@ -1,0 +1,66 @@
+﻿@attribute [Authorize(Roles = "SysAdmin")]
+@page "/staffs/create"
+
+
+<div class="row">
+    <div class="col-lg-9">
+        <h1>Create</h1>
+    </div>
+    <div class="col-lg-3 text-right">
+        <a class="btn btn-primary btn-sm" href="/staffs" role="button">Go Back To List</a>
+    </div>
+</div>
+ 
+@if (Staff != null && Staff.AppUser != null)
+{
+    <fieldset>
+        <legend>Create a Staff</legend>
+        <EditForm Model="@Staff" OnValidSubmit="@SubmitStaff">
+            <div class="row">
+                <div class="col-3">
+                    <label for="firstname">First name</label>
+                    <InputText id="firstname" class="form-control" @bind-Value="Staff.AppUser.FirstName" />
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="lastname">Last name</label>
+                    <InputText id="lastname" class="form-control" @bind-Value="Staff.AppUser.LastName" />
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <label for="selectSpecialties">Specialties</label>
+                    <InputSelect id="selectSpecialties" @bind-Value="StaffSpecialty.SpecialtyId" class="form-select">
+                        @if (Specialties != null)
+                        {
+                            @foreach (var specialty in Specialties)
+                            {
+                                <option value="@specialty.Id">@specialty.Name</option>
+                            }
+                        }
+                    </InputSelect>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <label for="email">Email</label>
+                    <InputText id="email" class="form-control" @bind-Value="Staff.AppUser.Email" />
+                </div>
+            </div>
+                      
+            <div class="row">
+                <div class="col-3">
+                    <label for="phone">Phone Number</label>
+                    <InputText id="phone" class="form-control" @bind-Value="Staff.AppUser.PhoneNumber" />
+                </div>
+            </div>
+     
+           
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </fieldset>
+}
+

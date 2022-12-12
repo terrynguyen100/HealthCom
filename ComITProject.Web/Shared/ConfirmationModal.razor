@@ -1,0 +1,78 @@
+﻿@inject IJSRuntime _JSRuntime
+
+<!-- The Modal -->
+<!-- data-bs-backdrop and data-bs-keyboard prevents user from clicking elsewhere while modal form is showing->
+<div class="modal fade" id="@Id" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">@Title</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                @ChildContent
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @onclick="ConfirmedClick">OK</button>
+                <button type="button" class="btn btn-danger" @onclick="CancelClick">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@code {
+    //this parameter to determine which CRUD function the modal form is showing/serving
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback onConfirm { get; set; }
+
+    [Parameter]
+    public EventCallback onCancel { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrEmpty(Id))
+        {
+            throw new Exception("Id is a mandatory parameter.");
+        }
+    }
+
+    private async Task ConfirmedClick()
+    {
+        await Hide();
+        await onConfirm.InvokeAsync(null);
+    }
+
+    private async Task CancelClick()
+    {
+        await Hide();
+        await onCancel.InvokeAsync(null);
+    }
+
+    public async Task Show()
+    {
+        //this will use the framework JSRunTime to call a JS method named showModal and put in a parameter of Id
+        await _JSRuntime.InvokeVoidAsync("showModal", Id);
+    }
+
+    public async Task Hide()
+    {
+        await _JSRuntime.InvokeVoidAsync("hideModal", Id);
+    }
+
+}

@@ -1,0 +1,96 @@
+﻿@attribute [Authorize(Roles = "SysAdmin")]
+@page "/staffs/detail/{id:int}"
+@inject IJSRuntime JSRuntime
+
+@if (Staff != null)
+{
+    <div class="row">
+        <div class="col-lg-9">
+            <h1>@Staff.AppUser.FirstName</h1>
+        </div>
+        <div class="col-lg-3 text-right">
+            <a class="btn btn-secondary btn-sm" href="/staffs" role="button">Go Back To List</a>
+        </div>
+    </div>
+ 
+    <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row" style=" color:royalblue">Staff Details</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th scope="row">First name</th>                
+                    <td>@Staff.AppUser.FirstName</td>
+                </tr>
+            <tr>
+                <th scope="row">Last name</th>
+                <td>@Staff.AppUser.LastName</td>
+            </tr>
+            <tr>
+                <th scope="row">Email</th>
+                <td>@Staff.AppUser.Email</td>
+            </tr>
+            <tr>
+                <th scope="row">Phone number</th>
+                <td>@Staff.AppUser.PhoneNumber</td>
+            </tr>
+            <tr>
+                <th scope="row" style="color:royalblue">Specialty Details</th>
+                <td>
+                    @if (Staff.StaffSpecialties != null && Staff.StaffSpecialties.Count > 0)
+                    {
+                        @foreach (var specialty in Staff.StaffSpecialties)
+                        {
+                            <tr>
+                                <td style="color:royalblue" margin-right="10">@specialty.Specialty.Name</td>
+                                <td> 
+                                    <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteStaffSpecialtyClick(specialty.SpecialtyId))">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <th scope="row" style="color:#FF0000">No specialty of this staff member is recorded</th>
+                        </tr>
+                    }
+                </td>
+            </tr>
+
+            <tr>
+                <th></th>
+                <td>
+                    <button class="btn btn-primary btn-sm" @onclick="CreateStaffSpecialtyClick">Add New Staff Specialty</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+<ModalForm @ref="modalFormStaffSpecialty" Id="addStaffSpecialty" FormType="formType" onConfirmAdd="AddStaffSpecialtyConfirmedClick" Title="@formTitle">
+    <fieldset>
+        <div class="row">
+            <select id="selectStaffSpecialty" @bind="_tempInt" class=" form-select">
+                @if (Specialties != null)
+                {
+                    @foreach (var _specialty in Specialties)
+                    {
+                        <option value="@_specialty.Id">@_specialty.Name</option>
+                    }
+                }
+            </select>
+        </div>
+        
+
+    </fieldset>
+</ModalForm>
+
+
+
+<ConfirmationModal @ref="myConfirmationModalStaffSpecialty" Id="deleteConfirmation" Title="Confirm Delete" onConfirm="DeleteStaffSpecialtyConfirmedClick">
+    <div>
+        Are you sure you want to delete this specialty ?
+    </div>
+</ConfirmationModal>

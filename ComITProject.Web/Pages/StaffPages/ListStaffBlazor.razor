@@ -1,0 +1,120 @@
+﻿@attribute [Authorize(Roles = "SysAdmin")]
+@page "/staffs"
+<PageTitle>  Staffs List   </PageTitle>
+
+
+<div class="row">
+    <div class="col-lg-9">
+        <h1>Staffs</h1>
+    </div>
+    <div class="col-lg-3 text-right">
+        <a class="btn btn-primary btn-sm" href="/staffs/create" role="button">Create New</a>
+    </div>
+</div>
+
+
+@if (Staffs != null && Staffs.Count > 0)
+{
+   
+
+    <table class="table table-bordered table-striped table-sm">
+ 	<thead>
+            <tr>
+                <th> Id</th>
+                @*<th>Photo</th>*@
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Specialties</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Staffs)
+            {
+                <tr>
+                    <td> @item.Id</td>
+                    @*<td>@item.AppUser.Photo</td>*@
+                    <td>@item.AppUser?.FirstName</td>
+                    <td>@item.AppUser?.LastName</td>
+                    <td>@item.AppUser?.Email</td>
+                    <td>@item.AppUser?.PhoneNumber</td>
+                    <td>
+                        <table>
+                            @if (item.StaffSpecialties != null)
+                            {
+                                 @foreach (var specialty in item.StaffSpecialties)
+                                    {
+                                        
+                                        <tr style="color:royalblue"> @specialty.Specialty.Name</tr>
+                                    }
+                            }
+                        </table>
+                        
+                    </td>
+                    <td class="text-right">
+                        <a class="btn btn-primary btn-sm" href="/staffs/detail/@item.Id" role="button">Details</a>
+
+                        <button class="btn btn-secondary btn-sm" @onclick="@(e => EditStaffClick(item.Id))">Edit</button>
+
+                        <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteStaffClick(item.Id))">Delete</button>
+                    </td>
+                </tr>
+           }
+        </tbody>
+    </table>
+}
+else if (Staffs != null && Staffs.Count == 0)
+{
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="alert alert-info">
+                <span>Sorry, there is no staff recorded so far.</span>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center">
+        <div class="col">
+            <img src="/img/loading.gif"/>
+        </div>
+    </div>
+}
+<ModalForm @ref="modalForm" Id="createEditStaff" FormType="formType" onConfirmSave="UpdateConfirmedClick" Title="@formTitle">
+    <fieldset>
+        <legend>Staff Info</legend>
+
+        <div class="row">
+            <div class="col-6">
+                <label for="firstname">First name</label>
+                <input type="text" maxlength="50" id="firstname" class="form-control" @bind="Staff.AppUser.FirstName" />
+            </div>
+            <div class="col-6">
+                <label for="lastname">Last name</label>
+                <input type="text" maxlength="50" id="lastname" class="form-control" @bind="Staff.AppUser.LastName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="email">Email</label>
+                <input type="text" maxlength="100" id="email" class="form-control" @bind="Staff.AppUser.Email" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="phoneNumber">Phone number</label>
+                <input type="text" maxlength="15" id="phonenumber" class="form-control" @bind="Staff.AppUser.PhoneNumber" />
+            </div>
+        </div>
+    </fieldset>
+</ModalForm>
+
+<ConfirmationModal @ref="myConfirmationModal" Id="deleteConfirmation" Title="Confirm Delete" onConfirm="DeleteConfirmedClick">
+    <div>
+        Are you sure you want to delete @Staff?.AppUser.FirstName @Staff?.AppUser.LastName ?
+    </div>
+</ConfirmationModal>

@@ -1,0 +1,157 @@
+﻿@attribute [Authorize(Roles = "SysAdmin")]
+@page "/patients/edit/{id:int}"
+
+
+@if (Patient != null)
+{
+    <div class="row">
+        <div class="col-lg-9">
+            <h1>@Patient.PreferredName</h1>
+        </div>
+        <div class="col-lg-3 text-right">
+            <a class="btn btn-secondary btn-sm" href="/patients" role="button">Go Back To List</a>
+        </div>
+    </div>
+ 
+    <EditForm Model="@Patient" OnValidSubmit="@SubmitPatient">
+        <div class="row">
+            <div class="col-3">
+                <label for="patientdetail" style="color:royalblue">Patient Details</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="firstname">First name</label>
+                <InputText id="firstname" class="form-control" @bind-Value="Patient.AppUser.FirstName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="lastname">Last name</label>
+                <InputText id="lastname" class="form-control" @bind-Value="Patient.AppUser.LastName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="preferredname">Preferred name</label>
+                <InputText id="preferredname" class="form-control" @bind-Value="Patient.PreferredName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="gender">Gender</label>
+                <InputText id="gender" class="form-control" @bind-Value="Patient.Gender" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="email">Email</label>
+                <InputText id="email" class="form-control" @bind-Value="Patient.AppUser.Email" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="phonenumber">Phone number</label>
+                <InputText id="phonenumber" class="form-control" @bind-Value="Patient.AppUser.PhoneNumber" />
+            </div>
+        </div>
+
+        @if (Patient.Address != null)
+        {
+            <div class="row">
+                <div class="col-3">
+                    <label for="patientdetail" style="color:royalblue">Address Details</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="address1">Address 1</label>
+                    <InputText id="address1" class="form-control" @bind-Value="Patient.Address.Address1" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="address2">Address 2</label>
+                        <InputText id="address2" class="form-control" @bind-Value="Patient.Address.Address2" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="city">City</label>
+                    <InputText id="city" class="form-control" @bind-Value="Patient.Address.Country" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="province">Province</label>
+                    <InputText id="province" class="form-control" @bind-Value="Patient.Address.Province" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="postalcode">Postal Code</label>
+                    <InputText id="postalcode" class="form-control" @bind-Value="Patient.Address.PostalCode" />
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-3">
+                    <label for="noaddress" style="color:red">No address of this person is recorded.</label>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-primary btn-sm" role="button" style="margin-top:7px; margin-bottom:7px">Add New Address</a>
+            </div>
+            
+        }
+        @if (Patient.EmergencyContact != null)
+        {
+            <div class="row">
+                <div class="col-3">
+                    <label for="patientdetail" style="color:royalblue">Emergency Contact Details</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="firstname">First name</label>
+                    <InputText id="firstname" class="form-control" @bind-Value="Patient.EmergencyContact.FirstName" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="lastname">Last name</label>
+                    <InputText id="lastname" class="form-control" @bind-Value="Patient.EmergencyContact.LastName" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="telephone">Telephone</label>
+                    <InputText id="telephone" class="form-control" @bind-Value="Patient.EmergencyContact.Telephone" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="relationship">Relationship To Patient</label>
+                    <InputText id="relationship" class="form-control" @bind-Value="Patient.EmergencyContact.RelationshipToPatient" />
+                </div>
+            </div>
+            
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-3">
+                    <label for="noaddress" style="color:red">No Emergency Contact of this person is recorded.</label>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-primary btn-sm" role="button" style="margin-top:7px; margin-bottom:7px">Add Emergency Contact</a>
+            </div>
+
+        }
+        <button type="submit" class="btn btn-primary" style="margin-top:7px; margin-bottom:7px">Update</button>
+        
+    </EditForm>
+}

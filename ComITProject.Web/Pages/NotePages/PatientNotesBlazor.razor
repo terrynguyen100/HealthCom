@@ -1,0 +1,86 @@
+﻿@attribute [Authorize(Roles = "SysAdmin,Doctor")]
+@page "/patients/notes/{patientId:int}"
+@inject IJSRuntime JSRuntime
+
+
+<div class="row">
+    <div class="col-lg-9">
+        <h1>Notes of Patient: @Patient.AppUser.LastName, @Patient.AppUser.FirstName</h1>
+    </div>
+    <div class="col-lg-3 text-right">
+        <button class="btn btn-primary btn-sm" @onclick="CreateNoteClick">Create New Note</button>
+    </div>
+</div>
+
+
+@if (Notes != null && Notes.Count > 0)
+{
+    <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr>
+                <th >Created Date Time</th>
+                <th>Note Author</th>
+                <th>Note Content</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Notes)
+            {
+                <tr>
+                    <td>@item.DateTimeCreated</td>
+                    <td>@item.Staff.AppUser.FirstName @item.Staff.AppUser.LastName</td>
+                    <td>@item.Content</td>
+                    <td class="text-right">
+
+                        <button class="btn btn-secondary btn-sm" @onclick="@(e => EditNoteClick(item.Id))">Edit</button>
+
+                        <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteNoteClick(item.Id))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Notes != null && Notes.Count == 0)
+{
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="alert alert-info">
+                <span>Sorry, there is no note recorded so far.</span>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row justify-content-center">
+        <div class="col">
+            <img src="/img/loading.gif" />
+        </div>
+    </div>
+}
+
+<ModalForm @ref="patientNoteModalForm" Id="createEditNote" FormType="formType" onConfirmAdd="AddNoteConfirmedClick" onConfirmSave="ConfirmSaveNote" Title="@formTitle">
+    <fieldset>
+        <legend>Patient: @Patient.AppUser.LastName, @Patient.AppUser.FirstName</legend>
+
+        <div class="row">
+            <div class="col-12">
+                <label for="content">Content</label>
+                <textarea name="Text1" rows="20" maxlength="500" id="content" class="form-control" @bind="Note.Content">
+
+                </textarea>
+            </div>
+           
+        </div>
+
+    </fieldset>
+</ModalForm>
+
+<ConfirmationModal @ref="myConfirmationModal" Id="deleteConfirmation" Title="Confirm Delete" onConfirm="DeleteConfirmedClick">
+    <div>
+        Are you sure you want to delete this note?
+    </div>
+</ConfirmationModal>

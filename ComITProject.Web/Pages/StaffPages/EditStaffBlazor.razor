@@ -1,0 +1,112 @@
+﻿@attribute [Authorize(Roles = "SysAdmin")]
+@page "/staffs/edit/{id:int}"
+
+
+@if (Staff != null)
+{
+    <div class="row">
+        <div class="col-lg-9">
+            <h1>@Staff.AppUser.FirstName</h1>
+        </div>
+        <div class="col-lg-3 text-right">
+            <a class="btn btn-secondary btn-sm" href="/staffs" role="button">Go Back To List</a>
+        </div>
+    </div>
+ 
+    <EditForm Model="@Staff" OnValidSubmit="@SubmitStaff">
+        <div class="row">
+            <div class="col-3">
+                <label for="staffdetail" style="color:royalblue">Staff Details</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="firstname">First name</label>
+                <InputText id="firstname" class="form-control" @bind-Value="Staff.AppUser.FirstName" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="lastname">Last name</label>
+                <InputText id="lastname" class="form-control" @bind-Value="Staff.AppUser.LastName" />
+            </div>
+        </div>
+
+        @*<div class="row">
+            <div class="col-3">
+                <label for="selectSpecialties">Specialties</label>
+                <InputSelect id="selectSpecialties" @bind-Value="Staff" class="form-select">
+                    @if (Specialties != null)
+                    {
+                        @foreach (var specialty in Specialties)
+                        {
+                            <option value="@specialty.Id">@specialty.Name</option>
+                        }
+                    }
+                </InputSelect>
+            </div>
+        </div>*@
+
+        <div class="row">
+            <div class="col-3">
+                <label for="email">Email</label>
+                <InputText id="email" class="form-control" @bind-Value="Staff.AppUser.Email" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <label for="phonenumber">Phone number</label>
+                <InputText id="phonenumber" class="form-control" @bind-Value="Staff.AppUser.PhoneNumber" />
+            </div>
+        </div>
+
+        
+        @*@if (Staff.Address != null)
+        {
+            <div class="row">
+                <div class="col-3">
+                    <label for="staffdetail" style="color:royalblue">Emergency Contact Details</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="firstname">First name</label>
+                    <InputText id="firstname" class="form-control" @bind-Value="Staff.EmergencyContact.FirstName" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="lastname">Last name</label>
+                    <InputText id="lastname" class="form-control" @bind-Value="Staff.EmergencyContact.LastName" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="telephone">Telephone</label>
+                    <InputText id="telephone" class="form-control" @bind-Value="Staff.EmergencyContact.Telephone" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <label for="relationship">Relationship To Staff</label>
+                    <InputText id="relationship" class="form-control" @bind-Value="Staff.EmergencyContact.RelationshipToStaff" />
+                </div>
+            </div>
+            
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-3">
+                    <label for="noaddress" style="color:red">No Emergency Contact of this person is recorded.</label>
+                </div>
+            </div>
+            <div>
+                <a class="btn btn-primary btn-sm" role="button" style="margin-top:7px; margin-bottom:7px">Add Emergency Contact</a>
+            </div>
+
+        }*@
+        <button type="submit" class="btn btn-primary" style="margin-top:7px; margin-bottom:7px">Update</button>
+        
+    </EditForm>
+}
