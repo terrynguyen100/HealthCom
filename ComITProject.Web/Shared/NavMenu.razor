@@ -1,7 +1,7 @@
 ﻿
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Health Clinic Management</a>
+        <a class="navbar-brand" href="">HealthCom</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,11 +10,11 @@
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <div class="nav-item px-3">
+        @*<div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
-        </div>
+        </div>*@
         
         <AuthorizeView Roles="SysAdmin,Doctor">
             <Authorized>
@@ -23,11 +23,6 @@
                         <span class="fa-solid fa-solid fa-hospital-user px-3" aria-hidden="true"></span> Patient List
                     </NavLink>
                 </div>
-
-            </Authorized>
-        </AuthorizeView>
-        <AuthorizeView Roles ="SysAdmin">
-            <Authorized>
                 <div class="nav-item px-1">
                     <NavLink class="nav-link" href="staffs">
                         <span class="fa-solid fa-user-nurse px-3" aria-hidden="true"></span> Staff List
@@ -38,8 +33,10 @@
                         <span class="fa-solid fa-heart px-3" aria-hidden="true"></span> Specialty List
                     </NavLink>
                 </div>
+
             </Authorized>
         </AuthorizeView>
+        
         <AuthorizeView Roles ="Patient">
             <Authorized>
                 <div class="nav-item px-1">
