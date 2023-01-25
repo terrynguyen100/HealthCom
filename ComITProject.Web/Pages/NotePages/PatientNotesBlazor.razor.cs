@@ -86,41 +86,13 @@ namespace ComITProject.Web.Pages.NotePages
             StateHasChanged();
             await patientNoteModalForm.Hide();
         }
-
-        //private async Task EditNoteClick(int noteid)
-        //{
-        //    await JSRuntime.InvokeVoidAsync("Alert", "Currently under development!");
-        //}
-        //private async Task DeleteNoteClick(int noteid)
-        //{
-        //    await JSRuntime.InvokeVoidAsync("Alert", "Currently under development!");
-        //}
-
-        //DELETE NOTES
-        public async Task DeleteNoteClick(int noteid)
-        {
-            Note = await NoteService.GetNoteById(noteid);
-            if (Note != null)
-            {
-                //to check whether the user is the author of the note OR a sysadmin before the note can be delete
-                if (Note.StaffId == Staff.Id || IsSysAdmin)
-                {
-                    await myConfirmationModal.Show();
-                }
-                else
-                {
-                    await JSRuntime.InvokeVoidAsync("Alert", "Not authorized to DELETE another staff's note");
-                }
-            }
-
-        }
+               
 
         private async Task DeleteConfirmedClick()
         {
             await NoteService.DeleteNote(Note);
             Notes.RemoveAll(p => p.Id == Note.Id);
         }
-
 
         //EDIT NOTE
         private async Task EditNoteClick(int noteid)
