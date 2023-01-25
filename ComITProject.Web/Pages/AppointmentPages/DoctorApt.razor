@@ -1,0 +1,20 @@
+﻿@attribute [Authorize(Roles = "Doctor")]
+@page "/doctorapt"
+
+@if (Staff != null)
+{
+    <div class="row">
+        <div class="col-lg-9">
+            <h1>Welcome, @Staff.AppUser.FirstName @Staff.AppUser.LastName</h1>
+        </div>
+    </div>
+ 
+    <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row" style=" color:royalblue">Appointments</th>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+}
