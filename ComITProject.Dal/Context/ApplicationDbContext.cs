@@ -32,13 +32,12 @@ namespace ComITProject.Dal.Context
         public DbSet<Specialty> Specialties { get; set; }
         public DbSet<Staff> Staffs { get; set;}
         public DbSet<StaffSpecialty> StaffSpecialties { get;set; }
+        public DbSet<Timeslot> Timeslots { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PatientDiagnosis>().HasKey(pd => new { pd.PatientId, pd.DiagnosisId});
             modelBuilder.Entity<StaffSpecialty>().HasKey(ss => new { ss.StaffId, ss.SpecialtyId});
-
-
 
             //adding ON DELETE SET NULL to 1 out of the 2 foreign keys to avoid the 2nd cascading error 
             //both my Staff and Patient entities has a UserID as a foreign key.
