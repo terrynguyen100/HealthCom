@@ -10,7 +10,8 @@ Frameworks: .NET Entity Framework, .NET Identity Framework
 
 Detailed Explanation:
 The project includes 2 main folders:
-1. ComITProject.Dal: contain the database portion of the application. 
+1. ComITProject.Dal: contain the database portion of the application.
+    - Database Model: https://lucid.app/lucidchart/74f5785c-a115-455a-8e93-a5ece14997f0/edit?viewport_loc=-701%2C-1653%2C2760%2C2820%2C0_0&invitationId=inv_414f7617-f370-45e6-ba3e-3db23f406e97
     - Model folder: each .cs file represent one table of the database. Each file describes the column data type and data parameter along with primary/foreign key
     - Migrations folder: each .cs file represent one migration of the model database to Microsoft SQL Server
     - After building the model, it was migrated to Microsoft SQL Server with the use of ASP.NET Entity Framework
