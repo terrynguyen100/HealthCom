@@ -86,7 +86,13 @@ namespace ComITProject.Web.Pages.NotePages
             StateHasChanged();
             await patientNoteModalForm.Hide();
         }
-               
+
+        //Delete note button click and modal form confirm
+        public async Task DeleteNoteClick(int noteid)
+        {
+            Note = await NoteService.GetNoteById(noteid);
+           await myConfirmationModal.Show();
+        }
 
         private async Task DeleteConfirmedClick()
         {
@@ -94,24 +100,14 @@ namespace ComITProject.Web.Pages.NotePages
             Notes.RemoveAll(p => p.Id == Note.Id);
         }
 
-        //EDIT NOTE
+
+        //Edit note button click and modal form confirm
         private async Task EditNoteClick(int noteid)
         {
             formTitle = "Edit Patient";
             formType = ModalFormType.Edit;
             Note = await NoteService.GetNoteById(noteid);
-            if (Note != null)
-            {
-                //to check whether the user is the author of the note OR a sysadmin before the note can be delete
-                if (Note.StaffId == Staff.Id || IsSysAdmin)
-                {
-                    await patientNoteModalForm.Show();
-                }
-                else
-                {
-                    await JSRuntime.InvokeVoidAsync("Alert", "Not authorized to EDIT another staff's note");
-                }
-            }
+            await patientNoteModalForm.Show();
         }
         private async Task ConfirmSaveNote()
         {
